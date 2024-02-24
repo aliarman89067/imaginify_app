@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 
 import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
+console.log("webhook triggered");
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -65,7 +66,7 @@ export async function POST(req: Request) {
     const user = {
       clerkId: id,
       email: email_addresses[0].email_address,
-      username: username!,
+      userName: username!,
       firstName: first_name,
       lastName: last_name,
       photo: image_url,
@@ -92,7 +93,7 @@ export async function POST(req: Request) {
     const user = {
       firstName: first_name,
       lastName: last_name,
-      username: username!,
+      userName: username!,
       photo: image_url,
     };
 
@@ -103,6 +104,7 @@ export async function POST(req: Request) {
 
   // DELETE
   if (eventType === "user.deleted") {
+    console.log("User delete webhook called");
     const { id } = evt.data;
 
     const deletedUser = await deleteUser(id!);
